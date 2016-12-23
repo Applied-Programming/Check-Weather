@@ -1,25 +1,29 @@
-#! python3
-# quickWeather.py - Prints the current weather for a location from the command line.
+#! Python 3.4
+# checkweather.py - Prints the current weather for a location from the command line.
 
-import json, requests, sys
 
-appID = '833f67c8c998811130576a8d4b37c49c'
+import json
+import requests
+import sys
+
+#app_ID = 'YOUR-OWN-OPENWEATHERMAP-API'
 location = ('Nagpur,IN')
 
-# Download the JSON data from OpenWeatherMap.org's API
-url ='http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s' % (location, appID)
+# Download the JSON data from OpenWeatherMap.org's API using the Python requests module
+url ='http://api.openweathermap.org/data/2.5/weather?q=%s&appid=%s' % (location, app_ID)
 response = requests.get(url)
 response.raise_for_status()
 
-# Load JSON data into a Python variable.
-weatherData = json.loads(response.text)
-# Print weather descriptions.
-w = weatherData['weather']
+# Load JSON data.
+weather_data = json.loads(response.text)
+
+# Print weather descriptions:
+w = weather_data['weather']
 
 print('Current weather in %s:' % (location))
 print(w[0]['main'], '-', w[0]['description'])
 
 # Print temperature.
-t = weatherData['main']
-temp = t["temp"]-273.15
+t = weather_data['main']
+temp = t["temp"]-273.15 # Convert Kelvin to 'Celsius
 print('Temperature - %.2f\'C' %(temp))
